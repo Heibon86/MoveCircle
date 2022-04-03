@@ -13,15 +13,20 @@ namespace Game.Player
         
         [Inject] private ClickHandler _clickHandler;
         [Inject] private Camera _camera;
-        
-        private void OnEnable()
+
+        public void Initialize()
         {
             _clickHandler.Trigger.Where(result => result.Key.Equals(KeysStorage.ClickPlayer)).Subscribe(ClickThis)
                 .AddTo(_disposable);
             _clickHandler.Trigger.Where(result => result.Key.Equals(KeysStorage.ClickScreen)).Subscribe(ClickScreen)
                 .AddTo(_disposable);
         }
-        
+
+        private void OnDisable()
+        {
+            _disposable.Dispose();
+        }
+
         private void ClickThis(CallbackClick callbackClick)
         {
            _playerMovement.StopMove();

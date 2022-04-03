@@ -335,6 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e988508c23fbd48a0dce9539afff5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _context: {fileID: 1050861357}
   _clickHandler: {fileID: 519420030}
   _camera: {fileID: 519420031}
   _guiManager:
@@ -344,6 +345,11 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   _gameController:
     m_AssetGUID: 715fb443135b0d34ba68e4dd29d6ffd6
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _playerSpawner:
+    m_AssetGUID: 3127881fcf069b54a900b5a0c27f67d9
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0

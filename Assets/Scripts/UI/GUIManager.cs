@@ -9,15 +9,13 @@ namespace UI
 {
     public class GUIManager : MonoBehaviour
     {
+        [SerializeField] private AssetReference _startScreenPrefab;
+        
         private readonly Subject<CallbackClick> _listeners = new Subject<CallbackClick>();
         private CompositeDisposable _disposable = new CompositeDisposable();
-
-        public IObservable<CallbackClick> Trigger => _listeners;
-        
-        [SerializeField] private AssetReference _startScreenPrefab;
-
         private StartScreen _startScreen;
 
+        public IObservable<CallbackClick> Trigger => _listeners;
 
         public async UniTask Initialize()
         {

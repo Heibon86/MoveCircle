@@ -1,5 +1,6 @@
 using System;
 using Game.Player;
+using Game.Spawners;
 using UI;
 using UniRx;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace Game
         private CompositeDisposable _disposable = new CompositeDisposable();
         
         [Inject] private GUIManager _guiManager;
-
+        [Inject] private PlayerSpawner _playerSpawner;
         public async void Initialize()
         {
             await _guiManager.Initialize();
@@ -29,7 +30,7 @@ namespace Game
 
         private void LoadGame(CallbackClick callbackClick)
         {
-            
+            _playerSpawner.CreatePlayer();
         }
     }
 }

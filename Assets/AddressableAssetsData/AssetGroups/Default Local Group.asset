@@ -37,6 +37,18 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/Spawners/PlayerSpawner.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 18c8608b6d43b5347a1d02c453a23f90
+    m_Address: Assets/Prefabs/SquareBonus.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: dee0b024fcec67246853adee2eb327a0
+    m_Address: Assets/Prefabs/BonusPool.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 10c7263711afde04680ca1af5c4101be
+    m_Address: Assets/Prefabs/Spawners/BonusesSpawner.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8cfbb1b5d69a94a4ab084083241adef9, type: 2}
   m_SchemaSet:

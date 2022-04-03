@@ -14,6 +14,8 @@ namespace Game
         
         [Inject] private GUIManager _guiManager;
         [Inject] private PlayerSpawner _playerSpawner;
+        [Inject] private BonusesSpawner _bonusesSpawner;
+        
         public async void Initialize()
         {
             await _guiManager.Initialize();
@@ -30,6 +32,7 @@ namespace Game
 
         private void LoadGame(CallbackClick callbackClick)
         {
+            _bonusesSpawner.Initialize();
             _playerSpawner.CreatePlayer();
         }
     }

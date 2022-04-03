@@ -353,6 +353,16 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
+  _bonusesSpawner:
+    m_AssetGUID: 10c7263711afde04680ca1af5c4101be
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _bonusPool:
+    m_AssetGUID: dee0b024fcec67246853adee2eb327a0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
 --- !u!4 &1562110456
 Transform:
   m_ObjectHideFlags: 0

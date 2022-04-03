@@ -7,9 +7,12 @@ namespace Game.Player
 {
     public class PlayerController: MonoBehaviour
     {
+        [SerializeField] private PlayerMovement _playerMovement;
+        
         private CompositeDisposable _disposable = new CompositeDisposable();
         
         [Inject] private ClickHandler _clickHandler;
+        [Inject] private Camera _camera;
         
         private void OnEnable()
         {
@@ -21,12 +24,14 @@ namespace Game.Player
         
         private void ClickThis(CallbackClick callbackClick)
         {
-            //stop
+           _playerMovement.StopMove();
         }
         
         private void ClickScreen(CallbackClick callbackClick)
         {
-            //moveTo
+            Vector3 point = _camera.ScreenToWorldPoint(callbackClick.Point);
+            point.z = 0;
+            _playerMovement.MoveToPoint(point);
         }
     }
 }

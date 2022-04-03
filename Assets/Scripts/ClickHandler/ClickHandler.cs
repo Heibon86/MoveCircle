@@ -37,13 +37,11 @@ namespace Game.Player
             {
                 if (hit.collider.gameObject.TryGetComponent(out PlayerController playerController))
                 {
-                    Debug.Log("ClickThis");
                     _listeners.OnNext(new CallbackClick(KeysStorage.ClickPlayer, Input.mousePosition));
                 }
             }
             else
             {
-                Debug.Log("ClickScreen");
                 _listeners.OnNext(new CallbackClick(KeysStorage.ClickScreen, Input.mousePosition));
             }
         }

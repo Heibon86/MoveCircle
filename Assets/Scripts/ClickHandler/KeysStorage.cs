@@ -4,5 +4,6 @@ namespace Game.Player
     {
         public const string ClickScreen = "ClickScreen";
         public const string ClickPlayer = "ClickPlayer";
+        public const string ClickStart = "ClickStart";
     }
 }

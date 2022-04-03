@@ -1,8 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
+using UI;
 using UnityEngine;
+using Zenject;
 
-public class GameController : MonoBehaviour
+namespace Game
 {
-    
+    public class GameController : MonoBehaviour
+    {
+        [Inject] private GUIManager _guiManager;
+
+        public void Initialize()
+        {
+            _guiManager.ShowStartScreen();
+        }
+    }
 }

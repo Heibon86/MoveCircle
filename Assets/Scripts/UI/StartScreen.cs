@@ -26,7 +26,7 @@ namespace UI
 
         private void StartButton_OnClick()
         {
-            _listeners.OnNext(new CallbackClick(KeysStorage.ClickStart, Vector3.zero));
+            _listeners.OnNext(new CallbackClick(KeysStorage.ClickStartButton, Vector3.zero));
         }
     }
 }

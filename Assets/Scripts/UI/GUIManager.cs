@@ -1,4 +1,7 @@
+using System;
 using Cysharp.Threading.Tasks;
+using Game.Player;
+using UniRx;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -6,11 +9,28 @@ namespace UI
 {
     public class GUIManager : MonoBehaviour
     {
+        private readonly Subject<CallbackClick> _listeners = new Subject<CallbackClick>();
+        private CompositeDisposable _disposable = new CompositeDisposable();
+
+        public IObservable<CallbackClick> Trigger => _listeners;
+        
         [SerializeField] private AssetReference _startScreenPrefab;
 
         private StartScreen _startScreen;
 
-        public async void ShowStartScreen()
+
+        public async UniTask Initialize()
+        {
+            await LoadStartScreen();
+            SubscribeEvents();
+        }
+        
+        public void ShowStartScreen()
+        {
+            _startScreen.gameObject.SetActive(true);
+        }
+
+        private async UniTask LoadStartScreen()
         {
             var result = Addressables.LoadAssetAsync<GameObject>(_startScreenPrefab);
             
@@ -20,6 +40,20 @@ namespace UI
             {
                 _startScreen = Instantiate(startScreen, transform);
             }
+            
+            _startScreen.gameObject.SetActive(false);
+        }
+        
+        private void SubscribeEvents()
+        {
+            _startScreen.Trigger.Where(callback => callback.Key.Equals(KeysStorage.ClickStartButton))
+                .Subscribe(ClickStartButton).AddTo(_disposable);
+        }
+
+        private void ClickStartButton(CallbackClick callbackClick)
+        {
+            _startScreen.gameObject.SetActive(false);
+            _listeners.OnNext(callbackClick);
         }
     }
 }

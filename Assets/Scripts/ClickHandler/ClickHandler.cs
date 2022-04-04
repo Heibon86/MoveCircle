@@ -18,7 +18,17 @@ namespace ClickHandler
         {
             Observable.EveryUpdate()
                 .Where(_ => Input.GetMouseButtonDown(0))
-                .Subscribe(xs => CheckRaycast())
+                .Subscribe(xs => Click())
+                .AddTo(_disposable);
+            
+            Observable.EveryUpdate()
+                .Where(_ => Input.GetMouseButton(0))
+                .Subscribe(xs => Drag())
+                .AddTo(_disposable);
+            
+            Observable.EveryUpdate()
+                .Where(_ => Input.GetMouseButtonUp(0))
+                .Subscribe(xs => EndDrag())
                 .AddTo(_disposable);
         }
 
@@ -27,6 +37,21 @@ namespace ClickHandler
             _disposable.Dispose();
         }
 
+        private void Click()
+        {
+            _listeners.OnNext(new Callback(KeysStorage.StartDrag, Input.mousePosition));
+        }
+
+        private void Drag()
+        {
+            CheckRaycast();
+        }
+
+        private void EndDrag()
+        {
+            _listeners.OnNext(new Callback(KeysStorage.EndDrag, Input.mousePosition));
+        }
+        
         private void CheckRaycast()
         {
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);

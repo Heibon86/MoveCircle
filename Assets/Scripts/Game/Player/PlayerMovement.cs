@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using ClickHandler;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -42,26 +43,33 @@ namespace Game.Player
             _lastPoint = transform.position;
         }
 
-        public void MoveToPoint(Vector3 pointTo)
+        public void MoveToPath(List<Vector3> path)
         {
             StopMove();
-            
-            float duration = CalculateDuration(pointTo);
 
+            Vector3[] newPath = GetPath(path);
+            
+            float duration = CalculateDuration(newPath);
+            
             _isMove = true;
 
             _lastPoint = transform.position;
             
-            transform.DOMove(pointTo, duration).SetEase(_animationCurve).OnComplete(() =>
+            transform.DOPath(newPath, duration).SetEase(_animationCurve).OnComplete(() =>
             {
                 _isMove = false;
-            });
+            });;
         }
 
-        public void MoveToPath(Vector3[] path)
+        private Vector3[] GetPath(List<Vector3> path)
         {
-            float duration = CalculateDuration(path);
-            transform.DOPath(path, 1).SetEase(_animationCurve);
+            Vector3 position = transform.position;
+
+            path.Insert(0, position);
+            
+            Vector3[] newPath = path.ToArray();
+
+            return newPath;
         }
 
         public void StopMove()
@@ -70,21 +78,13 @@ namespace Game.Player
             _isMove = false;
         }
 
-        private float CalculateDuration(Vector3 pointTo)
-        {
-            float distance = Vector3.Distance(transform.position, pointTo);
-            float duration = distance / SpeedMove;
-
-            return duration;
-        }
-        
         private float CalculateDuration(Vector3[] path)
         {
             float distance = 0;
             
             for (int i = 0; i < path.Length - 1; i++)
             {
-                distance = Vector3.Distance(path[i], path[i + 1]);
+                distance += Vector3.Distance(path[i], path[i + 1]);
             }
             
             float duration = distance / SpeedMove;

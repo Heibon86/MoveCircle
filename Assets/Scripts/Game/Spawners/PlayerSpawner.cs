@@ -13,7 +13,7 @@ namespace Game.Spawners
 
         private PlayerController _playerController;
 
-        public async void CreatePlayer()
+        public async UniTask CreatePlayer()
         {
             var result = Addressables.LoadAssetAsync<GameObject>(_playerControllerAsset);
             
@@ -23,6 +23,11 @@ namespace Game.Spawners
             {
                 _playerController = Instantiate(playerController, transform);
                 CoreSceneInstaller.Context.Container.Inject(_playerController);
+                CoreSceneInstaller.Context.Container
+                    .Bind<PlayerController>()
+                    .FromInstance(_playerController)
+                    .AsSingle();
+
                 _playerController.Initialize();
             }
         }

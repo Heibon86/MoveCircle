@@ -1,8 +1,6 @@
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Game;
 using Game.Bonuses;
-using Game.Player;
 using Game.Spawners;
 using UI;
 using UnityEngine;
@@ -16,7 +14,7 @@ namespace Installers
         public static Context Context { get; private set; }
 
         [SerializeField] private Context _context;
-        [SerializeField] private ClickHandler _clickHandler;
+        [SerializeField] private ClickHandler.ClickHandler _clickHandler;
         [SerializeField] private Camera _camera;
         [SerializeField] private AssetReference _guiManager;
         [SerializeField] private AssetReference _gameController;

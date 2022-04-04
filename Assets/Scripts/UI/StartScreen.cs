@@ -1,4 +1,5 @@
 using System;
+using ClickHandler;
 using Game.Player;
 using UniRx;
 using UnityEngine;
@@ -8,9 +9,9 @@ namespace UI
 {
     public class StartScreen : MonoBehaviour
     {
-        private readonly Subject<CallbackClick> _listeners = new Subject<CallbackClick>();
+        private readonly Subject<Callback> _listeners = new Subject<Callback>();
 
-        public IObservable<CallbackClick> Trigger => _listeners;
+        public IObservable<Callback> Trigger => _listeners;
 
         [SerializeField] private Button _startButton;
 
@@ -26,7 +27,7 @@ namespace UI
 
         private void StartButton_OnClick()
         {
-            _listeners.OnNext(new CallbackClick(KeysStorage.ClickStartButton, Vector3.zero));
+            _listeners.OnNext(new Callback(KeysStorage.ClickStartButton));
         }
     }
 }

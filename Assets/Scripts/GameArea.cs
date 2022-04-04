@@ -14,9 +14,7 @@ public class GameArea
     public void CalculateGameArea(Camera camera)
     {
         Vector2 screen = camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
-        
-        Debug.Log(screen);
-        
+
         float indent = screen.y * PercentScreenForIndent;
 
         _leftDownPoint = new Vector2(-screen.x + indent, -screen.y + indent);

@@ -14,8 +14,6 @@ namespace Game.Spawners
         [SerializeField] private int _maxDelaySpawnMilliSecond;
         [SerializeField] private AssetReference _squareBonusAsset;
 
-        private List<SquareBonus> _squareBonuses = new List<SquareBonus>();
-
         [Inject] private BonusPool _bonusPool;
         [Inject] private GameArea _gameArea;
         [Inject] private Camera _camera;
@@ -34,11 +32,6 @@ namespace Game.Spawners
             }
             
             SpawnSquareBonuses();
-        }
-
-        private void GetRandomPoint()
-        {
-            
         }
 
         private async void SpawnSquareBonuses()

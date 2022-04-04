@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using ClickHandler;
+using Game.Player;
+using UniRx;
 using UnityEngine;
 
 namespace Game.Bonuses
@@ -38,9 +41,15 @@ namespace Game.Bonuses
             for (int i = 0; i < _maxBonuses; i++)
             {
                 squareBonus = Instantiate(_squareBonusPrefab, transform);
+                squareBonus.Trigger.Where(result => result.Key.Equals(KeysStorage.Collision)).Subscribe(PushPool);
                 squareBonus.gameObject.SetActive(false);
                 _squareBonuses.Add(squareBonus);
             }
+        }
+
+        private void PushPool(Callback callback)
+        {
+            callback.SquareBonus.gameObject.SetActive(false);
         }
     }
 }

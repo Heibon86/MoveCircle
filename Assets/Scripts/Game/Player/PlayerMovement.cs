@@ -8,8 +8,11 @@ namespace Game.Player
         private const float SpeedMove = 3f;
         
         [SerializeField] private AnimationCurve _animationCurve;
+        
         public void MoveToPoint(Vector3 pointTo)
         {
+            StopMove();
+            
             float duration = CalculateDuration(pointTo);
             
             transform.DOMove(pointTo, duration).SetEase(_animationCurve);

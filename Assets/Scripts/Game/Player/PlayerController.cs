@@ -1,4 +1,6 @@
 using System;
+using ClickHandler;
+using Game.Bonuses;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -9,10 +11,13 @@ namespace Game.Player
     {
         [SerializeField] private PlayerMovement _playerMovement;
         
+        private readonly Subject<Callback> _listeners = new Subject<Callback>();
         private CompositeDisposable _disposable = new CompositeDisposable();
         
-        [Inject] private ClickHandler _clickHandler;
+        [Inject] private ClickHandler.ClickHandler _clickHandler;
         [Inject] private Camera _camera;
+        
+        public IObservable<Callback> Trigger => _listeners;
 
         public void Initialize()
         {
@@ -27,16 +32,24 @@ namespace Game.Player
             _disposable.Dispose();
         }
 
-        private void ClickThis(CallbackClick callbackClick)
+        private void ClickThis(Callback callback)
         {
            _playerMovement.StopMove();
         }
         
-        private void ClickScreen(CallbackClick callbackClick)
+        private void ClickScreen(Callback callback)
         {
-            Vector3 point = _camera.ScreenToWorldPoint(callbackClick.Point);
+            Vector3 point = _camera.ScreenToWorldPoint(callback.Point);
             point.z = 0;
             _playerMovement.MoveToPoint(point);
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.collider.TryGetComponent(out SquareBonus squareBonus))
+            {
+                _listeners.OnNext(new Callback(KeysStorage.Collision));
+            }
         }
     }
 }

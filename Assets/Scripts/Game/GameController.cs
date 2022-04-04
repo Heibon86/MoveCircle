@@ -1,4 +1,5 @@
 using System;
+using ClickHandler;
 using Game.Player;
 using Game.Spawners;
 using UI;
@@ -30,10 +31,11 @@ namespace Game
             _disposable.Dispose();
         }
 
-        private void LoadGame(CallbackClick callbackClick)
+        private async void LoadGame(Callback callback)
         {
             _bonusesSpawner.Initialize();
-            _playerSpawner.CreatePlayer();
+            await _playerSpawner.CreatePlayer();
+            _guiManager.ShowGameScreenView();
         }
     }
 }

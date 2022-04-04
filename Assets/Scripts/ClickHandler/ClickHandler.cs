@@ -1,19 +1,18 @@
 using System;
+using Game.Player;
 using UniRx;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using Zenject;
 
-namespace Game.Player
+namespace ClickHandler
 {
     public class ClickHandler : MonoBehaviour
     {
         [SerializeField] private Camera _camera;
         
-        private readonly Subject<CallbackClick> _listeners = new Subject<CallbackClick>();
+        private readonly Subject<Callback> _listeners = new Subject<Callback>();
         private CompositeDisposable _disposable = new CompositeDisposable();
 
-        public IObservable<CallbackClick> Trigger => _listeners;
+        public IObservable<Callback> Trigger => _listeners;
         
         private void OnEnable()
         {
@@ -37,12 +36,12 @@ namespace Game.Player
             {
                 if (hit.collider.gameObject.TryGetComponent(out PlayerController playerController))
                 {
-                    _listeners.OnNext(new CallbackClick(KeysStorage.ClickPlayer, Input.mousePosition));
+                    _listeners.OnNext(new Callback(KeysStorage.ClickPlayer, Input.mousePosition));
                 }
             }
             else
             {
-                _listeners.OnNext(new CallbackClick(KeysStorage.ClickScreen, Input.mousePosition));
+                _listeners.OnNext(new Callback(KeysStorage.ClickScreen, Input.mousePosition));
             }
         }
     }

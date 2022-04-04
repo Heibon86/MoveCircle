@@ -7,5 +7,6 @@ namespace ClickHandler
         public const string ClickStartButton = "ClickStartButton";
         
         public const string Collision = "Collision";
+        public const string TraveledPath = "TraveledPath";
     }
 }

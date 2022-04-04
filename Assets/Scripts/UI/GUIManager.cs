@@ -13,6 +13,7 @@ namespace UI
     public class GUIManager : MonoBehaviour
     {
         private const string KeyScore = "Score";
+        private const string KeyTraveledPathLenght = "KeyTraveledPathLenght";
         
         [SerializeField] private AssetReference _startScreenPrefab;
         [SerializeField] private AssetReference _gameScreenViewPrefab;
@@ -22,12 +23,14 @@ namespace UI
         private StartScreen _startScreen;
         private GameScreenView _gameScreenView;
         private int _score;
+        private float _traveledPathLenght;
 
         public IObservable<Callback> Trigger => _listeners;
 
         public async UniTask Initialize()
         {
             _score = PlayerPrefs.GetInt(KeyScore);
+            _traveledPathLenght = PlayerPrefs.GetFloat(KeyTraveledPathLenght);
             
             await LoadStartScreen();
             SubscribeEvents();
@@ -44,8 +47,19 @@ namespace UI
 
             PlayerController playerController = CoreSceneInstaller.Context.Container.Resolve<PlayerController>();
             playerController.Trigger.Where(result => result.Key.Equals(KeysStorage.Collision)).Subscribe(SetScore);
+            playerController.Trigger.Where(result => result.Key.Equals(KeysStorage.TraveledPath)).Subscribe(SetTraveledPathLenght);
         }
 
+        private void SetTraveledPathLenght(Callback callback)
+        {
+            _traveledPathLenght += callback.Distance;
+
+            PlayerPrefs.SetFloat(KeyTraveledPathLenght, _traveledPathLenght);
+            PlayerPrefs.Save();
+            
+            _gameScreenView.SetDistanceText(_traveledPathLenght);
+        }
+        
         private void SetScore(Callback callback)
         {
             _score++;
@@ -80,6 +94,7 @@ namespace UI
             {
                 _gameScreenView = Instantiate(gameScreenView, transform);
                 _gameScreenView.SetScoreText(_score);
+                _gameScreenView.SetDistanceText(_traveledPathLenght);
             }
         }
         

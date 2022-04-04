@@ -10,6 +10,7 @@ namespace Game.Player
     public class PlayerController: MonoBehaviour
     {
         [SerializeField] private PlayerMovement _playerMovement;
+        [SerializeField] private PlayerCallbacks _pLayerCallbacks;
         
         private readonly Subject<Callback> _listeners = new Subject<Callback>();
         private CompositeDisposable _disposable = new CompositeDisposable();
@@ -24,6 +25,20 @@ namespace Game.Player
             _clickHandler.Trigger.Where(result => result.Key.Equals(KeysStorage.ClickPlayer)).Subscribe(ClickThis)
                 .AddTo(_disposable);
             _clickHandler.Trigger.Where(result => result.Key.Equals(KeysStorage.ClickScreen)).Subscribe(ClickScreen)
+                .AddTo(_disposable);
+            
+            _pLayerCallbacks.Trigger.Where(result => result.Key.Equals(KeysStorage.Collision))
+                .Subscribe(callback =>
+                {
+                    _listeners.OnNext(callback);
+                })
+                .AddTo(_disposable);
+            
+            _playerMovement.Trigger.Where(result => result.Key.Equals(KeysStorage.TraveledPath))
+                .Subscribe(callback =>
+                {
+                    _listeners.OnNext(callback);
+                })
                 .AddTo(_disposable);
         }
 
@@ -42,14 +57,6 @@ namespace Game.Player
             Vector3 point = _camera.ScreenToWorldPoint(callback.Point);
             point.z = 0;
             _playerMovement.MoveToPoint(point);
-        }
-
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            if (other.collider.TryGetComponent(out SquareBonus squareBonus))
-            {
-                _listeners.OnNext(new Callback(KeysStorage.Collision));
-            }
         }
     }
 }
